@@ -1,0 +1,118 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ChessCipher"
+        mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="700"
+        x:Class="ChessCipher.SecondWindow"
+        x:DataType="local:SecondWindow"
+        Title="Перегляд шахових партій" Width="1000" Height="700">
+    
+    <Grid ColumnDefinitions="*,300">
+        
+        <!-- Ліва частина - дошка та навігація -->
+        <Grid Grid.Column="0" RowDefinitions="*,Auto" Margin="20">
+            
+            <!-- Шахова дошка -->
+            <Border Grid.Row="0" 
+                    BorderBrush="#333" 
+                    BorderThickness="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+                <ItemsControl Name="ChessBoard" 
+                              Width="560" 
+                              Height="560">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Rows="8" Columns="8"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="local:ChessSquare">
+                            <Border Background="{Binding Background}"
+                                    BorderBrush="#888"
+                                    BorderThickness="0.5">
+                                <TextBlock Text="{Binding Piece}"
+                                          FontSize="48"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          Foreground="{Binding PieceColor}"/>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Border>
+            
+            <!-- Панель навігації -->
+            <StackPanel Grid.Row="1" 
+                        Orientation="Horizontal" 
+                        HorizontalAlignment="Center"
+                        Margin="0,20,0,0"
+                        Spacing="10">
+                <Button Name="BtnFirst" Content="⏮ На початок" Width="120" Height="40"/>
+                <Button Name="BtnPrev" Content="◀ Назад" Width="100" Height="40"/>
+                <Button Name="BtnNext" Content="Вперед ▶" Width="100" Height="40"/>
+                <Button Name="BtnLast" Content="В кінець ⏭" Width="120" Height="40"/>
+            </StackPanel>
+        </Grid>
+        
+        <!-- Права частина - меню керування -->
+        <Border Grid.Column="1" 
+                Background="#000000" 
+                BorderBrush="#ddd" 
+                BorderThickness="1,0,0,0"
+                Padding="15">
+            <Grid RowDefinitions="Auto,Auto,*,Auto">
+                
+                <!-- Заголовок -->
+                <TextBlock Grid.Row="0" 
+                          Text="Керування партією"
+                          FontSize="18"
+                          FontWeight="Bold"
+                          Margin="0,0,0,15"/>
+                
+                <!-- Інформація про партію -->
+                <StackPanel Grid.Row="1" Spacing="10" Margin="0,0,0,20">
+                    <TextBlock Text="Інформація про партію" 
+                              FontWeight="SemiBold"
+                              FontSize="14"/>
+                    <TextBlock Name="TxtWhitePlayer" Text="Білі: -" FontSize="12"/>
+                    <TextBlock Name="TxtBlackPlayer" Text="Чорні: -" FontSize="12"/>
+                    <TextBlock Name="TxtCurrentMove" Text="Хід: 0" FontSize="12" FontWeight="Bold"/>
+                </StackPanel>
+                
+                <!-- Список ходів -->
+                <Border Grid.Row="2" 
+                        BorderBrush="#ccc" 
+                        BorderThickness="1"
+                        Background="#000000"
+                        Padding="5">
+                    <ScrollViewer>
+                        <StackPanel>
+                            <TextBlock Text="Список ходів" 
+                                      FontWeight="SemiBold"
+                                      Margin="5,5,5,10"/>
+                            <ListBox Name="MovesList" 
+                                    Background="Transparent"
+                                    BorderThickness="0">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate DataType="local:MoveDisplayItem">
+                                        <TextBlock Text="{Binding DisplayText}" 
+                                                  Padding="5,3"/>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Border>
+                
+                <!-- Кнопки дій -->
+                <StackPanel Grid.Row="3" Spacing="10" Margin="0,15,0,0">
+                    <Button Name="BtnLoadPGN" Content="📂 Завантажити PGN" HorizontalAlignment="Stretch"/>
+                    <Button Name="BtnReset" Content="🔄 Скинути" HorizontalAlignment="Stretch"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
