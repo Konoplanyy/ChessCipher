@@ -1,3 +1,4 @@
+using System;
 using Avalonia.Controls;
 using Avalonia.Media;
 using System.Collections.ObjectModel;
@@ -62,6 +63,7 @@ namespace ChessCipher
         private void AddExampleMoves()
         {
             _match = ChessCipherLibrary.ChessCipher.FromString(Text);
+            Console.WriteLine(ChessCipherLibrary.ChessCipher.FromMatch(_match));
         }
 
         private void UpdateMovesList()
