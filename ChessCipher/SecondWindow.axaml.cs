@@ -3,9 +3,14 @@ using Avalonia.Controls;
 using Avalonia.Media;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Runtime.CompilerServices;
+using System.Text.Json;
+using System.Threading.Tasks;
 using ChessCipherLibrary.Models;
 using ChessCipherLibrary;
+using Avalonia.Controls;  
+using Avalonia.Platform.Storage;
 
 namespace ChessCipher
 {
@@ -100,6 +105,7 @@ namespace ChessCipher
             BtnNext.Click += (s, e) => GoToMove(_currentMoveIndex + 1);
             BtnLast.Click += (s, e) => GoToMove(_match.Moves.Count);
             BtnReset.Click += (s, e) => ResetBoard();
+            BtnLoadPGN.Click += (s, e) => DownloadClick();
             
             MovesList.SelectionChanged += (s, e) =>
             {
@@ -112,6 +118,36 @@ namespace ChessCipher
             };
         }
 
+        private async void DownloadClick()
+        {
+            var saveFile = await AskSaveFileAsync();
+
+            await using var stream = await saveFile.OpenWriteAsync();
+            await JsonSerializer.SerializeAsync(stream, _match, new  JsonSerializerOptions
+            {
+                WriteIndented = true
+            });
+        }
+
+        private async Task<IStorageFile> AskSaveFileAsync()
+        {
+            var file = await StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions  
+            {  
+                Title = "Зберегти файл",  
+                SuggestedFileName = "output.json",  
+                DefaultExtension = "json",  
+                FileTypeChoices = new[]  
+                {  
+                    new FilePickerFileType("Json files")  
+                    {  
+                        Patterns = new[] { "*.json" }  
+                    },  
+                }  
+            });
+            
+            return file;
+        }
+        
         private void GoToMove(int moveIndex)
         {
             if (moveIndex < 0 || moveIndex > _match.Moves.Count) return;

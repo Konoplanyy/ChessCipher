@@ -2,7 +2,7 @@
 
 public class Match
 {
-    public List<Move> Moves { get; private set; }
+    public List<Move> Moves { get; set; }
     public int MovesCount { get { return Moves.Count; } }
     
     public Match()

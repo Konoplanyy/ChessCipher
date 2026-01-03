@@ -109,7 +109,7 @@
                 
                 <!-- Кнопки дій -->
                 <StackPanel Grid.Row="3" Spacing="10" Margin="0,15,0,0">
-                    <Button Name="BtnLoadPGN" Content="📂 Завантажити PGN" HorizontalAlignment="Stretch"/>
+                    <Button Name="BtnLoadPGN" Content="📂 Завантажити Json" HorizontalAlignment="Stretch"/>
                     <Button Name="BtnReset" Content="🔄 Скинути" HorizontalAlignment="Stretch"/>
                 </StackPanel>
             </Grid>
